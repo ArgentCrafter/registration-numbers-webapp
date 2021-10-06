@@ -4,6 +4,10 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const flash = require('express-flash');
 const { Pool } = require('pg');
+
+let Factory = require('./regFactory');
+let Routes = require('./regRoutes');
+
 let app = express();
 
 // const connectionString = process.env.DATABASE_URL || '';
@@ -16,6 +20,9 @@ let app = express();
 // });
 
 // pool.connect();
+
+let factory = Factory(pool);
+let regRoutes = Routes(pool, factory);
 
 app.use(session({
     secret: 'keyboard cat5 run all 0v3r',
@@ -32,7 +39,9 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.get('/', regRoutes.root);
 
+app.get('/registration_numbers', regRoutes.regNumbers);
 
 let PORT = process.env.PORT || 3012;
 
