@@ -10,16 +10,16 @@ let Routes = require('./regRoutes');
 
 let app = express();
 
-// const connectionString = process.env.DATABASE_URL || '';
+const connectionString = process.env.DATABASE_URL || 'postgres://muzzaujaysjazq:69196cbdb92a6efe12591b4da277cf9e2f185639fac870a60509cb6db5bfe4e4@ec2-34-249-247-7.eu-west-1.compute.amazonaws.com:5432/ded39ads80c6bl';
 
-// const pool = new Pool({
-//     connectionString,
-//     ssl: {
-//         rejectUnauthorized: false,
-//     }
-// });
+const pool = new Pool({
+    connectionString,
+    ssl: {
+        rejectUnauthorized: false,
+    }
+});
 
-// pool.connect();
+pool.connect();
 
 let factory = Factory(pool);
 let regRoutes = Routes(pool, factory);
