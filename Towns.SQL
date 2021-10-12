@@ -1,0 +1,1 @@
+CREATE TABLE towns (id serial primary key, towns text not null);

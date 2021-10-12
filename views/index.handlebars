@@ -1,12 +1,71 @@
-<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    <h1>Website</h1>
-</body>
+  </head>
+  <body>
+    <div class="container">
+      <div class="heading">
+        <h1>REGISTRATION NUMBERS</h1>
+        <h4>
+          Format: xx yyyyy or xx yyy-yy
+          <br />
+          e.g. 'cy 12345' or 'cy 123-45'
+        </h4>
+      </div>
+      <div class="output">
+        <h3 class="{{class}}">{{output}}</h3>
+      </div>
+      <form>
+        <div class="inputSector">
+          <label for="regNum">Registration Number:</label>
+          <input
+            type="text"
+            id="regNum"
+            name="addRegistration"
+            placeholder="e.g CY 330662"
+          />
+          {{! <a class="btn" href="/addReg">Add</a> }}
+          <button type="submit" class="btn">Add</button>
+        </div>
+      </form>
+      <br />
+      <form action="/show" method="POST">
+        <div class="filterSector">
+          <div>
+            <input type="radio" name="townFilter" id="bellville" value="CY" />
+            <label for="bellville">Bellville</label>
+          </div>
+          <div>
+            <input type="radio" name="townFilter" id="capeTown" value="CA" />
+            <label for="capeTown">Town</label>
+          </div>
+          <div>
+            <input type="radio" name="townFilter" id="malmesbury" value="CK" />
+            <label for="bellville">Malmesbury</label>
+          </div>
+        </div>
+        <br />
+        <div class="buttonSector">
+          <div class="resetBtnDiv">
+            <a class="btn" href="/reset">Reset</a>
+          </div>
+          <div class="showBtnDiv">
+            {{! <a class="btn" href="/show">Show</a> }}
+            <button type="submit" class="btn">Show</button>
+          </div>
+          <div class="showAllBtnDiv">
+            <a class="btn" href="/reg_numbers">Show all</a>
+          </div>
+        </div>
+      </form>
+      <ul class="regList">
+        {{#each regList}}
+          <li class="regListItem">{{this}}</li>
+        {{/each}}
+      </ul>
+    </div>
+  </body>
 </html>

@@ -5,46 +5,52 @@ const session = require('express-session');
 const flash = require('express-flash');
 const { Pool } = require('pg');
 
-let Factory = require('./regFactory');
-let Routes = require('./regRoutes');
+const Factory = require('./regFactory');
+const Routes = require('./regRoutes');
 
-let app = express();
+const app = express();
 
-const connectionString = process.env.DATABASE_URL || 'postgres://muzzaujaysjazq:69196cbdb92a6efe12591b4da277cf9e2f185639fac870a60509cb6db5bfe4e4@ec2-34-249-247-7.eu-west-1.compute.amazonaws.com:5432/ded39ads80c6bl';
+const connectionString = 'postgres://muzzaujaysjazq:69196cbdb92a6efe12591b4da277cf9e2f185639fac870a60509cb6db5bfe4e4@ec2-34-249-247-7.eu-west-1.compute.amazonaws.com:5432/ded39ads80c6bl';
 
 const pool = new Pool({
     connectionString,
     ssl: {
         rejectUnauthorized: false,
-    }
+    },
 });
 
 pool.connect();
 
-let factory = Factory(pool);
-let regRoutes = Routes(pool, factory);
+const factory = Factory(pool);
+const regRoutes = Routes(pool, factory);
 
 app.use(session({
     secret: 'keyboard cat5 run all 0v3r',
     resave: false,
-    saveUninitialized: true
-}))
+    saveUninitialized: true,
+}));
 
 app.use(flash());
 
-app.engine('handlebars', exphba({ defaultLayout: 'main', layoutsDir: __dirname + '/views/layouts' }));
+app.engine('handlebars', exphba({ defaultLayout: 'main', layoutsDir: `${__dirname}/views/layouts` }));
 app.set('view engine', 'handlebars');
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(`${__dirname}/public`));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.get('/', regRoutes.root);
 
-app.get('/registration_numbers', regRoutes.regNumbers);
+app.get('/reg_numbers', regRoutes.regNumbers);
 
-let PORT = process.env.PORT || 3012;
+app.get('/reg_numbers/:number', regRoutes.regNumbersFilter);
 
-app.listen(PORT, function () {
+app.get('/reset', regRoutes.reset);
+
+app.post('/show', regRoutes.show);
+
+const PORT = process.env.PORT || 3012;
+
+app.listen(PORT, () => {
     console.log('App starting on port', PORT);
 });

@@ -1,0 +1,80 @@
+.container {
+  display: block;
+  margin: auto;
+  background-color: silver;
+  border: 5px solid black;
+  border-radius: 10px;
+  width: 95%;
+}
+
+.heading {
+  text-align: center;
+}
+
+.output {
+  text-align: center;
+}
+
+.inputSector {
+  text-align: center;
+  margin: 10px;
+}
+
+.btn {
+  text-decoration: none;
+  color: black;
+  border: black 2px solid;
+  border-radius: 4px;
+  padding: 2px;
+  background-color: silver;
+}
+
+.btn:hover {
+  background-color: rgb(132, 132, 132);
+}
+
+.filterSector {
+  display: flex;
+  justify-content: center;
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+.buttonSector {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+
+.resetBtnDiv {
+  margin: 10px;
+}
+
+.showBtnDiv {
+  margin: 10px;
+}
+
+.showAllBtnDiv {
+  margin: 10px;
+}
+
+.regList {
+  margin: 0 10px 10px 10px;
+  padding: 0 0 0 0;
+  text-align: center;
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.regListItem {
+  margin-bottom: 3px;
+  border: 2px solid black;
+  border-radius: 6px ;
+  width: 30%;
+}
+
+.red {
+  color: red;
+}

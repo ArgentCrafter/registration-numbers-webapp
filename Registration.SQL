@@ -1,0 +1,1 @@
+CREATE TABLE registration (id serial primary key, registration_number text not null);
