@@ -51,8 +51,6 @@ module.exports = function regRoutes(pool, factory) {
     function show(req, res) {
         if (req.body.townFilter) {
             res.redirect('/reg_numbers/' + req.body.townFilter);
-        } else {
-            res.redirect('/reg_numbers');
         }
     }
 
