@@ -49,7 +49,11 @@ module.exports = function regRoutes(pool, factory) {
     }
 
     function show(req, res) {
-        res.redirect('/reg_numbers/' + req.body.townFilter);
+        if (req.body.townFilter) {
+            res.redirect('/reg_numbers/' + req.body.townFilter);
+        } else {
+            res.redirect('/reg_numbers');
+        }
     }
 
     return {
