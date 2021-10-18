@@ -19,7 +19,7 @@ module.exports = function regRoutes(pool, factory) {
             }
         } else {
             const regList = await factory.filterRegList(await (await factory.selectAllReg()).rows);
-            res.render('index', { regList });
+            res.render('index', { regList, output: 'Please enter a registration number', class: 'red' });
         }
     }
 
@@ -39,7 +39,13 @@ module.exports = function regRoutes(pool, factory) {
             }
         } else {
             const regList = await factory.filterRegListWithNum(await (await factory.selectAllReg()).rows, req.params.number);
-            res.render('index', { regList });
+            console.log(regList);
+            console.log(regList.length);
+            if (regList.length > 0) {
+                res.render('index', { regList });
+            } else {
+                res.render('index', { regList, output: 'No numbers found for that town', class: 'red' });
+            }
         }
     }
 

@@ -16,6 +16,7 @@
         "no-plusplus":"off",
         "indent":"off",
         "max-len":"off",
-        "prefer-template":"off"
+        "prefer-template":"off",
+        "no-undef":"off"
     }
 }
