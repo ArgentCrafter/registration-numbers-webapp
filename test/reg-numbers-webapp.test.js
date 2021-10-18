@@ -11,8 +11,6 @@ const pool = new Pool({
     },
 });
 
-pool.connect();
-
 const factory = Factory(pool);
 
 describe('Tests:', () => {
@@ -64,4 +62,7 @@ describe('Tests:', () => {
             assert.deepEqual(await factory.filterRegList(list.rows), ['CY 12345', 'CA 54321', 'CK 12543']);
         });
     });
+});
+after(() => {
+    pool.end();
 });
