@@ -71,5 +71,6 @@ describe('Tests:', () => {
     });
 });
 after(() => {
+    factory.reset();
     pool.end();
 });
