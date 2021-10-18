@@ -1,0 +1,1 @@
+[![Build Status](https://app.travis-ci.com/Jaden-Hope/registration-numbers-webapp.svg?branch=gh-pages)](https://app.travis-ci.com/Jaden-Hope/registration-numbers-webapp)
