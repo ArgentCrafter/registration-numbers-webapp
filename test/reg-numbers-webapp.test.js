@@ -24,6 +24,13 @@ describe('Tests:', () => {
             assert.equal(await (await pool.query('SELECT * FROM registration')).rowCount, 1);
         });
 
+        it('Should be able to update an entry', async () => {
+            await factory.addRegToDB('CY 12345');
+            await pool.query("UPDATE registration SET registration_number = 'CY 54321' WHERE registration_number = 'CY 12345'");
+            const entry = await (await pool.query('SELECT * FROM registration')).rows;
+            assert.equal(entry[0].registration_number, ['CY 54321']);
+        });
+
         after(async () => {
             await factory.reset();
         });

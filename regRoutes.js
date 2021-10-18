@@ -19,7 +19,7 @@ module.exports = function regRoutes(pool, factory) {
             }
         } else {
             const regList = await factory.filterRegList(await (await factory.selectAllReg()).rows);
-            res.render('index', { regList, output: 'Please enter a registration number', class: 'red' });
+            res.render('index', { regList, output: 'Please enter a registration number' });
         }
     }
 
