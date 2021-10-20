@@ -69,8 +69,8 @@ describe('Tests:', () => {
             assert.deepEqual(await factory.filterRegList(list.rows), ['CY 12345', 'CA 54321', 'CK 12543']);
         });
     });
-});
-after(() => {
-    factory.reset();
-    pool.end();
+    after(() => {
+        factory.reset();
+        pool.end();
+    });
 });
