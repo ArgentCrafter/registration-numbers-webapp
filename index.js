@@ -2,7 +2,7 @@ const express = require('express');
 const exphba = require('express-handlebars');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const flash = require('express-flash');
+const flash = require('connect-flash');
 const { Pool } = require('pg');
 
 const Factory = require('./regFactory');

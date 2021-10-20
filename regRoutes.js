@@ -10,16 +10,25 @@ module.exports = function regRoutes(pool, factory) {
             if (regEx.test(req.query.addRegistration)) {
                 if (!await factory.checkForExisting(req.query.addRegistration.toUpperCase())) {
                     await factory.addRegToDB(req.query.addRegistration.toUpperCase());
+
+                    const regList = await factory.filterRegList(await (await factory.selectAllReg()).rows);
+                    res.render('index', { regList, output: 'Registration number successfully added!', class: 'green' });
+                } else {
+                    const regList = await factory.filterRegList(await (await factory.selectAllReg()).rows);
+                    res.render('index', { regList, output: 'This Registration Number has already been entered', class: 'red' });
                 }
-                const regList = await factory.filterRegList(await (await factory.selectAllReg()).rows);
-                res.render('index', { regList });
             } else {
                 const regList = await factory.filterRegList(await (await factory.selectAllReg()).rows);
                 res.render('index', { regList, output: 'Please enter a valid registration number', class: 'red' });
             }
         } else {
             const regList = await factory.filterRegList(await (await factory.selectAllReg()).rows);
-            res.render('index', { regList, output: 'Please enter a registration number' });
+            const flash = req.flash('output');
+            if (flash[0]) {
+                res.render('index', { regList, output: flash, class: 'green' });
+            } else {
+                res.render('index', { regList, output: 'Please enter a registration number' });
+            }
         }
     }
 
@@ -30,17 +39,19 @@ module.exports = function regRoutes(pool, factory) {
             if (regEx.test(req.query.addRegistration)) {
                 if (!await factory.checkForExisting(req.query.addRegistration.toUpperCase())) {
                     await factory.addRegToDB(req.query.addRegistration.toUpperCase());
+
+                    const regList = await factory.filterRegList(await (await factory.selectAllReg()).rows);
+                    res.render('index', { regList, output: 'Registration number successfully added!', class: 'green' });
+                } else {
+                    const regList = await factory.filterRegList(await (await factory.selectAllReg()).rows);
+                    res.render('index', { regList, output: 'This Registration Number has already been entered', class: 'red' });
                 }
-                const regList = await factory.filterRegList(await (await factory.selectAllReg()).rows);
-                res.render('index', { regList });
             } else {
                 const regList = await factory.filterRegList(await (await factory.selectAllReg()).rows);
                 res.render('index', { regList, output: 'Please enter a valid registration number', class: 'red' });
             }
         } else {
             const regList = await factory.filterRegListWithNum(await (await factory.selectAllReg()).rows, req.params.number);
-            console.log(regList);
-            console.log(regList.length);
             if (regList.length > 0) {
                 res.render('index', { regList });
             } else {
@@ -51,6 +62,8 @@ module.exports = function regRoutes(pool, factory) {
 
     function reset(req, res) {
         factory.reset();
+
+        req.flash('output', 'Database reset successful!');
         res.redirect('/reg_numbers');
     }
 

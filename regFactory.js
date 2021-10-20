@@ -33,12 +33,8 @@ module.exports = function regFactory(pool) {
     }
 
     async function checkForExisting(regNum) {
-        const regList = await filterRegList(await (await selectAllReg()).rows);
-
-        for (let i = 0; i < regList.length; i++) {
-            if (regList[i] === regNum) {
-                return true;
-            }
+        if (await (await pool.query('SELECT * FROM registration WHERE registration_number=$1', [regNum])).rows[0]) {
+            return true;
         }
         return false;
     }
