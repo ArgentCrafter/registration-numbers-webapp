@@ -50,23 +50,19 @@ describe('Tests:', () => {
             await factory.addRegToDB('CA 54321');
             await factory.addRegToDB('CK 12543');
 
-            const list = await factory.selectAllReg();
-            assert.deepEqual(await factory.filterRegListWithNum(list.rows, 'CY'), ['CY 12345']);
+            assert.deepEqual(await factory.filterRegListWithNum('CY'), ['CY 12345']);
         });
 
         it('filterRegList function should only display CA reg numbers', async () => {
-            const list = await factory.selectAllReg();
-            assert.deepEqual(await factory.filterRegListWithNum(list.rows, 'CA'), ['CA 54321']);
+            assert.deepEqual(await factory.filterRegListWithNum('CA'), ['CA 54321']);
         });
 
         it('filterRegList function should only display CK reg numbers', async () => {
-            const list = await factory.selectAllReg();
-            assert.deepEqual(await factory.filterRegListWithNum(list.rows, 'CK'), ['CK 12543']);
+            assert.deepEqual(await factory.filterRegListWithNum('CK'), ['CK 12543']);
         });
 
         it('filterRegList should return registration numbers "CY 12345", "CA 54321" and "CK 12543"', async () => {
-            const list = await factory.selectAllReg();
-            assert.deepEqual(await factory.filterRegList(list.rows), ['CY 12345', 'CA 54321', 'CK 12543']);
+            assert.deepEqual(await factory.filterRegList(), ['CY 12345', 'CA 54321', 'CK 12543']);
         });
     });
     after(() => {
