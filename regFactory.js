@@ -1,6 +1,8 @@
 module.exports = function regFactory(pool) {
     async function addRegToDB(registration) {
-        await pool.query('INSERT INTO registration(registration_number) VALUES ($1)', [registration]);
+        console.log(await pool.query('SELECT id FROM towns WHERE town_code=$1', [registration.slice(0, 2)]));
+        const townCodeID = await (await pool.query('SELECT id FROM towns WHERE town_code=$1', [registration.slice(0, 2)])).rows[0].id;
+        await pool.query('INSERT INTO registration(registration_number, town_code_id) VALUES ($1, $2)', [registration, townCodeID]);
     }
 
     async function selectAllReg() {
@@ -11,23 +13,29 @@ module.exports = function regFactory(pool) {
         await pool.query('TRUNCATE TABLE registration');
     }
 
-    async function filterRegList(list) {
-        const regList = [];
-        for (let i = 0; i < list.length; i += 1) {
-            regList.push(list[i].registration_number);
+    async function isValidID(input) {
+        const regNum = input.toUpperCase();
+        if ((regNum.startsWith('CA')) || (regNum.startsWith('CY')) || (regNum.startsWith('CK'))) {
+            return true;
         }
+        return false;
+    }
+
+    async function filterRegList() {
+        const regList = [];
+        await (await pool.query('SELECT * FROM registration')).rows.forEach((item) => {
+            regList.push(item.registration_number);
+        });
 
         return regList;
     }
 
-    async function filterRegListWithNum(list, num) {
+    async function filterRegListWithNum(num) {
         const regList = [];
-        for (let i = 0; i < list.length; i += 1) {
-            const currItem = list[i];
-            if (currItem.registration_number.startsWith(num)) {
-                regList.push(currItem.registration_number);
-            }
-        }
+        const townCodeID = await (await pool.query('SELECT id FROM towns WHERE town_code=$1', [num])).rows[0].id;
+        await (await pool.query('SELECT * FROM registration WHERE town_code_id=$1', [townCodeID])).rows.forEach((item) => {
+            regList.push(item.registration_number);
+        });
 
         return regList;
     }
@@ -46,5 +54,6 @@ module.exports = function regFactory(pool) {
         filterRegList,
         filterRegListWithNum,
         checkForExisting,
+        isValidID,
     };
 };
