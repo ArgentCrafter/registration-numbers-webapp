@@ -1,6 +1,5 @@
 module.exports = function regFactory(pool) {
     async function addRegToDB(registration) {
-        console.log(await pool.query('SELECT id FROM towns WHERE town_code=$1', [registration.slice(0, 2)]));
         const townCodeID = await (await pool.query('SELECT id FROM towns WHERE town_code=$1', [registration.slice(0, 2)])).rows[0].id;
         await pool.query('INSERT INTO registration(registration_number, town_code_id) VALUES ($1, $2)', [registration, townCodeID]);
     }
