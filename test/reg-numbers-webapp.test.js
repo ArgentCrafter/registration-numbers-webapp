@@ -37,16 +37,22 @@ describe('Tests:', () => {
     });
 
     describe('Factory Function tests:', () => {
+        beforeEach(async () => {
+            await factory.reset();
+        });
+
         it('checkForExisting function should find existing entry for registration "CY 12345"', async () => {
             await factory.addRegToDB('CY 12345');
             assert.equal(await factory.checkForExisting('CY 12345'), true);
         });
 
         it('checkForExisting function should not find an existing entry for registration "CA 54321"', async () => {
+            await factory.addRegToDB('CY 12345');
             assert.equal(await factory.checkForExisting('CA 54321'), false);
         });
 
         it('filterRegList function should only display CY reg numbers', async () => {
+            await factory.addRegToDB('CY 12345');
             await factory.addRegToDB('CA 54321');
             await factory.addRegToDB('CK 12543');
 
@@ -54,19 +60,31 @@ describe('Tests:', () => {
         });
 
         it('filterRegList function should only display CA reg numbers', async () => {
+            await factory.addRegToDB('CY 12345');
+            await factory.addRegToDB('CA 54321');
+            await factory.addRegToDB('CK 12543');
+
             assert.deepEqual(await factory.filterRegListWithNum('CA'), ['CA 54321']);
         });
 
         it('filterRegList function should only display CK reg numbers', async () => {
+            await factory.addRegToDB('CY 12345');
+            await factory.addRegToDB('CA 54321');
+            await factory.addRegToDB('CK 12543');
+
             assert.deepEqual(await factory.filterRegListWithNum('CK'), ['CK 12543']);
         });
 
         it('filterRegList should return registration numbers "CY 12345", "CA 54321" and "CK 12543"', async () => {
+            await factory.addRegToDB('CY 12345');
+            await factory.addRegToDB('CA 54321');
+            await factory.addRegToDB('CK 12543');
+
             assert.deepEqual(await factory.filterRegList(), ['CY 12345', 'CA 54321', 'CK 12543']);
         });
     });
-    after(() => {
-        factory.reset();
+    after(async () => {
+        await factory.reset();
         pool.end();
     });
 });
